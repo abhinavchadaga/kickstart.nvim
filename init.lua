@@ -73,7 +73,6 @@ local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
 require('lazy').setup({
-  'NMAC427/guess-indent.nvim',
   {
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -283,6 +282,7 @@ require('lazy').setup({
       local servers = {
         clangd = {
           cmd = {
+            'clangd',
             '--pretty',
             '--clang-tidy',
             '-j',
@@ -297,7 +297,7 @@ require('lazy').setup({
             '--header-insertion=iwyu',
             '--pch-storage=memory',
           },
-          on_attach = function(client, bufnr)
+          on_attach = function(_, bufnr)
             require('clangd_extensions').setup()
 
             -- Add clangd-specific keymaps
@@ -475,10 +475,13 @@ require('lazy').setup({
       },
 
       completion = {
+        accept = { auto_brackets = { enabled = false } },
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
       },
+
+      cmdline = { enabled = false },
 
       sources = {
         default = { 'lsp', 'path', 'snippets', 'lazydev' },
@@ -549,6 +552,8 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+      --
+      require('mini.pairs').setup()
     end,
   },
   {
@@ -582,10 +587,10 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
